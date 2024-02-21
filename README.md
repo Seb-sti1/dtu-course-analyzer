@@ -72,3 +72,10 @@ If you are using Firefox, you can get the cookie by pressing F12, going to the s
  1. In a terminal window, `cd` into the `extension` directory within the project
  2. Run the extension using `web-ext run`
 
+## TODOs
+
+- Finish testing extension
+- Clean up readme
+- Clean up old files
+- Properly publish db.html on GitLab Hub
+- 

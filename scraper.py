@@ -1,6 +1,7 @@
 """
 This script scrapes the DTU course evaluation and grade data from the DTU website and stores it in coursedic.json.
-It uses the course numbers from coursenumbers.txt and the key from secret.txt to access the data.
+It uses the course numbers from coursenumbers.txt (from getCourseNumbers.py) and the key from the env var SESSION_ID
+to access the data.
 """
 import time
 start_time = time.time()
@@ -76,10 +77,15 @@ def extractlinks(html):
 reqC = 0
 
 
-def respObj(url):
+def respObj(url, en=False):
     global reqC
     reqC += 1
-    r = requests.get(url, cookies={'ASP.NET_SessionId': key})
+
+    cookies = {'ASP.NET_SessionId': key}
+    if not en:
+        cookies['{DTUCoursesPublicLanguage}']= 'en-GB'
+
+    r = requests.get(url, cookies=cookies)
     if r.status_code == 200:
         return r.text
     else:
@@ -239,7 +245,6 @@ courseDic = {}
 
 for i, courseN in tqdm(enumerate(courses), total=len(courses)):
     try:
-        # print("Course: "+courseN)
         course = Course(courseN)
         overviewResp = respObj("http://kurser.dtu.dk/course/" + courseN + "/info")
 
@@ -253,7 +258,7 @@ for i, courseN in tqdm(enumerate(courses), total=len(courses)):
                 elif "karakterer" in l:
                     course.gradeLinks.append(l)
         crawl = course.gather()
-        if (crawl):
+        if crawl: # TODO get the name of the course when listing the courses
             courseDic[courseN] = crawl
             soup = BeautifulSoup(respObj("http://kurser.dtu.dk/course/" + courseN), "html.parser")
             courseName = soup.find_all('h2')[0].contents[0].split(" ", 1)[1]

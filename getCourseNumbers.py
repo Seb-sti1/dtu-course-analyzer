@@ -1,6 +1,6 @@
 """
 This file is used to create coursenumbers.txt, which is used in scraper.py.
-It connects to kurser.dtu.dk/search using the key from secret.txt.
+It connects to kurser.dtu.dk/search using the key from the env var SESSION_ID.
 """
 import requests
 from bs4 import BeautifulSoup
