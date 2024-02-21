@@ -1,16 +1,11 @@
 """
-This file analyse the data from coursedic.json and create the result in the data.json, [extension]/db.html
-and [extension]/db/data.js.
+This file analyse the data from coursedic.json (from scraper.py)
+and create the result in the pages-template/data.json, pages-template/index.html
+and pages-template/js/init_table.js
 """
 
 import json
-import sys
 import pprint
-from Prepender import *
-
-if len(sys.argv) != 2:
-    print('usage: ' + sys.argv[0] + ' <extension-folder-name>')
-    sys.exit()
 
 pp = pprint.PrettyPrinter(indent=2)
 
@@ -133,15 +128,7 @@ empty_keys = [k for k, v in db.items() if not v]
 for k in empty_keys:
     del db[k]
 
-folder = sys.argv[1]
-extFilename = folder + '/db/data.js'
-with open(extFilename, 'w') as outfile:
-    json.dump(db, outfile)
-
-with PrependToFile(extFilename) as f:
-    f.write_line('var data = ')
-
-with open('data.json', 'w') as outfile:
+with open('pages-template/data.json', 'w') as outfile:
     json.dump(db, outfile)
 
 table = ''
@@ -166,18 +153,17 @@ for course, data in db.items():
     table += '</tr>'
 table += '</tbody></table>'
 
-
-file = open("templates/db.html", 'r')
+file = open("pages-template/index.html", 'r')
 content=file.read()
 file.close()
 
 content = content.replace('$table', table)
 
-file = open(folder + "/db.html", 'w')
+file = open("pages-template/index.html", 'w')
 content=file.write(content)
 file.close()
 
-file = open("templates/init_table.js", 'r')
+file = open("pages-template/js/init_table.js", 'r')
 content=file.read()
 file.close()
 
@@ -191,6 +177,6 @@ for i in range(0, len(headNames)):
 
 content = content.replace('$searchable_columns', searchable_columns)
 
-file = open(folder + "/js/init_table.js", 'w')
+file = open("pages-template/js/init_table.js", 'w')
 content=file.write(content)
 file.close()

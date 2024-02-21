@@ -63,7 +63,7 @@ Data was gathered using a Python script that scraped DTU's coursebase and format
    the `ASP.NET_SessionId` cookie.
 2. Update the list of courses using `python3 getCourseNumbers.py`
 3. Run the scraper `python3 scraper.py`
-4. Analyze the data using `python3 analyzer.py extension`
+4. Analyze the data using `python3 analyzer.py`
 
 ### Using GitHub Workflow (will also push to GitHub Pages)
 
@@ -89,4 +89,3 @@ and [data.json](https://seb-sti1.github.io/dtu-course-analyzer/data.json) to Git
      - Run `npm install --global web-ext`
  1. In a terminal window, `cd` into the `extension` directory within the project
  2. Run the extension using `web-ext run`
-

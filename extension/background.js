@@ -1,20 +1,33 @@
-chrome.runtime.onMessage.addListener(parseMessage);
+/**
+ * This file retrieve the data from GitHub Pages and stores it in the local storage
+ * It also defines the behaviour of when the user click on the app in the extension bar
+ */
 
-function parseMessage(request, sender, sendResponse) {
-	let course=request.getInfo
-	let rtab=sender.tab.id
-	
-	var resp={};
-	if(course in data){
-		resp[course]=data[course]
-	} else{
-		resp[course]=false
-	}
-	
-	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-		chrome.tabs.sendMessage(rtab, resp);
-	});
+if (typeof chrome !== 'undefined') {
+    browser = chrome
 }
-chrome.browserAction.onClicked.addListener(function(tab) {
-	chrome.tabs.create({ url: chrome.runtime.getURL('db.html') });
+
+function fetchData() {
+    let req = new Request("https://seb-sti1.github.io/dtu-course-analyzer/data.json", {
+        method: 'GET',
+        headers: {'Accept': 'application/json'},
+        redirect: 'follow',
+        referrer: 'client'
+    });
+
+    fetch(req).then(function (response) {
+        // .json returns another promise
+        return response.json();
+    }).then(function (data) {
+        console.debug("Data Refreshed")
+        browser.storage.local.set({data: data}); // set storage for content-script
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
+fetchData();
+
+browser.browserAction.onClicked.addListener(function (tab) {
+    browser.tabs.create({url: browser.runtime.getURL('https://seb-sti1.github.io/dtu-course-analyzer/')});
 });
