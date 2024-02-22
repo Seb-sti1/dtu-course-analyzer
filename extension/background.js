@@ -28,6 +28,6 @@ function fetchData() {
 
 fetchData();
 
-browser.browserAction.onClicked.addListener(function (tab) {
-    browser.tabs.create({url: browser.runtime.getURL('https://seb-sti1.github.io/dtu-course-analyzer/')});
+browser.action.onClicked.addListener((tab) => {
+    browser.tabs.create({url: 'https://seb-sti1.github.io/dtu-course-analyzer/'});
 });

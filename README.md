@@ -78,6 +78,29 @@ Data was gathered using a Python script that scraped DTU's coursebase and format
 This will publish two pages [db.html](https://smkidraadet.github.io/dtu-course-analyzer/)
 and [data.json](https://seb-sti1.github.io/dtu-course-analyzer/data.json) to GitHub Pages.
 
+
+## Extension's manifest
+
+Due to Firefox currently not 
+supporting [background.service_worker in Manifest V3](https://github.com/mozilla/web-ext/issues/2532#issuecomment-1285039773)
+there is a slight difference in the `manifest.json`:
+
+- For chrome
+
+```json
+"background": {
+   "service_worker": "background.js"
+},
+```
+
+- For Mozilla Firefox
+
+```json
+"background": {
+   "scripts": ["background.js"]
+},
+```
+
 ## Debugging
 ### Chrome
  1. Open the extensions page
