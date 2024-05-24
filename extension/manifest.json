@@ -3,6 +3,11 @@
   "name": "DTU Course Analyzer",
   "description": "Analyzes and scores courses on kurser.dtu.dk/xxxxx",
   "version": "2.0",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "sebastien.kerbourch@gmail.com"
+    }
+  },
   "icons": {
     "16": "icons/16.png",
     "48": "icons/48.png",
